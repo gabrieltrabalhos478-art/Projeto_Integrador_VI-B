@@ -1,0 +1,41 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Trilha de Auditoria - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Trilha de Auditoria (Logs de Acesso)</h1>
+    <p class="muted">
+        Registro cronológico de todas as visualizações e alterações de status realizadas nas denúncias.
+    </p>
+
+    {% if logs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Data e Hora</th>
+                    <th>Usuário</th>
+                    <th>Protocolo</th>
+                    <th>Ação</th>
+                    <th>Detalhe</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.data_hora|date:"d/m/Y H:i:s" }}</td>
+                        <td>{{ log.usuario.username|default:"Usuário removido" }}</td>
+                        <td>
+                            <a href="{% url 'detalhe_denuncia' log.denuncia.pk %}">{{ log.denuncia.protocolo }}</a>
+                        </td>
+                        <td>{{ log.get_acao_display }}</td>
+                        <td class="muted">{{ log.detalhe|default:"—" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">Nenhum acesso registrado até o momento.</p>
+    {% endif %}
+</div>
+{% endblock %}

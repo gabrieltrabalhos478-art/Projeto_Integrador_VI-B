@@ -1,10 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .crypto import criptografar_texto, descriptografar_texto
 from .decorators import apurador_required
 from .forms import AlterarStatusForm, ConsultaProtocoloForm, DenunciaForm
-from .models import Denuncia
+from .models import Denuncia, LogAcesso
 
 
 def nova_denuncia(request):
@@ -93,10 +95,21 @@ def detalhe_denuncia(request, pk):
         form = AlterarStatusForm(request.POST, instance=denuncia)
         if form.is_valid():
             form.save()
+            LogAcesso.objects.create(
+                usuario=request.user,
+                denuncia=denuncia,
+                acao='alteracao_status',
+                detalhe=f'Status alterado para {denuncia.get_status_display()}',
+            )
             messages.success(request, f'Status da denúncia {denuncia.protocolo} atualizado.')
             return redirect('detalhe_denuncia', pk=denuncia.pk)
     else:
         form = AlterarStatusForm(instance=denuncia)
+        LogAcesso.objects.create(
+            usuario=request.user,
+            denuncia=denuncia,
+            acao='visualizacao',
+        )
 
     # Descriptografa descrição e contato apenas na exibição para o apurador autorizado
     descricao_clara = descriptografar_texto(denuncia.descricao)
@@ -112,3 +125,13 @@ def detalhe_denuncia(request, pk):
             'contato_claro': contato_claro,
         },
     )
+
+
+@login_required
+def logs_auditoria(request):
+    """Tela de consulta da trilha de auditoria restrita ao administrador."""
+    if not request.user.is_superuser:
+        raise PermissionDenied('Acesso restrito ao administrador do sistema.')
+
+    logs = LogAcesso.objects.select_related('usuario', 'denuncia').all()
+    return render(request, 'denuncias/logs_auditoria.html', {'logs': logs})

@@ -191,6 +191,9 @@
                 <a href="{% url 'consultar_status' %}">Consultar Protocolo</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'lista_denuncias' %}">Painel do Apurador</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'logs_auditoria' %}">Auditoria</a>
+                    {% endif %}
                     <form method="post" action="{% url 'logout' %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="btn-link">Sair ({{ user.username }})</button>

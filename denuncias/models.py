@@ -1,5 +1,6 @@
 import secrets
 import string
+from django.conf import settings
 from django.db import models
 
 
@@ -84,3 +85,49 @@ class Denuncia(models.Model):
 
     def __str__(self):
         return f'{self.protocolo} - {self.get_categoria_display()}'
+
+
+class LogAcesso(models.Model):
+    """Trilha de auditoria que registra quem acessou ou alterou cada denúncia."""
+
+    ACAO_CHOICES = [
+        ('visualizacao', 'Visualização'),
+        ('alteracao_status', 'Alteração de status'),
+    ]
+
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Usuário',
+    )
+    denuncia = models.ForeignKey(
+        Denuncia,
+        on_delete=models.CASCADE,
+        related_name='logs_acesso',
+        verbose_name='Denúncia',
+    )
+    acao = models.CharField(
+        'Ação',
+        max_length=30,
+        choices=ACAO_CHOICES,
+    )
+    detalhe = models.CharField(
+        'Detalhe',
+        max_length=255,
+        blank=True,
+        default='',
+    )
+    data_hora = models.DateTimeField(
+        'Data e hora',
+        auto_now_add=True,
+    )
+
+    class Meta:
+        verbose_name = 'Log de Acesso'
+        verbose_name_plural = 'Logs de Acesso'
+        ordering = ['-data_hora']
+
+    def __str__(self):
+        nome_usuario = self.usuario.username if self.usuario else 'Usuário removido'
+        return f'{nome_usuario} - {self.get_acao_display()} ({self.denuncia.protocolo})'
