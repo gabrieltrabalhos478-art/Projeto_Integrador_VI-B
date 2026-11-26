@@ -1,0 +1,19 @@
+# Ambiente virtual Python
+venv/
+.venv/
+
+# Arquivos compilados Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de dados SQLite local (contém dados sensíveis e usuários de teste)
+db.sqlite3
+
+# Variáveis de ambiente e segredos (nunca versionar chaves reais)
+.env
+
+# Logs e arquivos temporários
+*.log
+.DS_Store
+Thumbs.db
