@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .decorators import apurador_required
 from .forms import AlterarStatusForm, ConsultaProtocoloForm, DenunciaForm
 from .models import Denuncia
 
@@ -60,7 +60,7 @@ def consultar_status(request):
     )
 
 
-@login_required
+@apurador_required
 def lista_denuncias(request):
     """Lista de denúncias para o apurador autenticado."""
     status_filtro = request.GET.get('status', '')
@@ -79,7 +79,7 @@ def lista_denuncias(request):
     )
 
 
-@login_required
+@apurador_required
 def detalhe_denuncia(request, pk):
     """Página de detalhe da denúncia com alteração de status pelo apurador."""
     denuncia = get_object_or_404(Denuncia, pk=pk)

@@ -1,0 +1,14 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Acesso Negado - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Acesso Negado (403)</h1>
+    <p>
+        Você não possui permissão para acessar esta área. Apenas usuários autenticados
+        pertencentes ao grupo <strong>Apurador</strong> podem visualizar ou alterar denúncias.
+    </p>
+    <a href="{% url 'nova_denuncia' %}" class="btn">Voltar ao Início</a>
+</div>
+{% endblock %}
