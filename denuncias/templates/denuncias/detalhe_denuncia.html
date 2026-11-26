@@ -20,8 +20,8 @@
     <p><strong>Empresa envolvida:</strong> {{ denuncia.empresa_envolvida }}</p>
     <p><strong>Data aproximada do ocorrido:</strong> {{ denuncia.data_aproximada|date:"d/m/Y" }}</p>
     <p><strong>Contato do denunciante:</strong>
-        {% if denuncia.contato_denunciante %}
-            {{ denuncia.contato_denunciante }}
+        {% if contato_claro %}
+            {{ contato_claro }}
         {% else %}
             <span class="muted">Não informado (denúncia anônima)</span>
         {% endif %}
@@ -29,7 +29,7 @@
 
     <div style="margin-top: 1rem;">
         <strong>Descrição do ocorrido:</strong>
-        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 6px; margin-top: 0.4rem; white-space: pre-wrap;">{{ denuncia.descricao }}</div>
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 6px; margin-top: 0.4rem; white-space: pre-wrap;">{{ descricao_clara }}</div>
     </div>
 
     <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border);">

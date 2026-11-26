@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .crypto import criptografar_texto, descriptografar_texto
 from .decorators import apurador_required
 from .forms import AlterarStatusForm, ConsultaProtocoloForm, DenunciaForm
 from .models import Denuncia
@@ -11,7 +12,11 @@ def nova_denuncia(request):
     if request.method == 'POST':
         form = DenunciaForm(request.POST)
         if form.is_valid():
-            denuncia = form.save()
+            denuncia = form.save(commit=False)
+            # Criptografa campos sensíveis em repouso antes de persistir no banco
+            denuncia.descricao = criptografar_texto(denuncia.descricao)
+            denuncia.contato_denunciante = criptografar_texto(denuncia.contato_denunciante)
+            denuncia.save()
             return redirect('confirmacao_denuncia', protocolo=denuncia.protocolo)
     else:
         form = DenunciaForm()
@@ -93,11 +98,17 @@ def detalhe_denuncia(request, pk):
     else:
         form = AlterarStatusForm(instance=denuncia)
 
+    # Descriptografa descrição e contato apenas na exibição para o apurador autorizado
+    descricao_clara = descriptografar_texto(denuncia.descricao)
+    contato_claro = descriptografar_texto(denuncia.contato_denunciante)
+
     return render(
         request,
         'denuncias/detalhe_denuncia.html',
         {
             'denuncia': denuncia,
             'form': form,
+            'descricao_clara': descricao_clara,
+            'contato_claro': contato_claro,
         },
     )
