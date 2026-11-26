@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DenúnciaSafe{% endblock %}</title>
+    <style>
+        :root {
+            --bg: #f4f6f9;
+            --surface: #ffffff;
+            --primary: #1d4ed8;
+            --primary-dark: #1e40af;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --success-bg: #ecfdf5;
+            --success-text: #065f46;
+            --warn-bg: #fffbeb;
+            --warn-text: #92400e;
+            --danger-bg: #fef2f2;
+            --danger-text: #991b1b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #0f172a;
+            color: #fff;
+            padding: 1rem 1.5rem;
+        }
+        .nav-container {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav a, .btn-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.95rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
+        }
+        nav a:hover, .btn-link:hover { color: #fff; }
+        main {
+            flex: 1;
+            max-width: 960px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        h1, h2 { margin-top: 0; color: #0f172a; }
+        .form-group { margin-bottom: 1.15rem; }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            font-size: 0.95rem;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 0.85rem;
+            border-radius: 6px;
+        }
+        .checkbox-group input { margin-top: 0.25rem; }
+        .checkbox-group label { font-weight: 400; margin: 0; }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover { background: var(--primary-dark); }
+        .btn-secondary {
+            background: #475569;
+        }
+        .btn-secondary:hover { background: #334155; }
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        .alert-success { background: var(--success-bg); color: var(--success-text); }
+        .alert-warning { background: var(--warn-bg); color: var(--warn-text); }
+        .alert-error { background: var(--danger-bg); color: var(--danger-text); }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .badge-recebida { background: #dbeafe; color: #1e40af; }
+        .badge-em_analise { background: #fef3c7; color: #92400e; }
+        .badge-concluida { background: #d1fae5; color: #065f46; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        th { background: #f8fafc; font-weight: 600; }
+        .muted { color: var(--muted); font-size: 0.9rem; }
+        .protocolo-box {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            background: #f1f5f9;
+            border: 2px dashed var(--primary);
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            color: var(--primary-dark);
+        }
+        footer {
+            text-align: center;
+            padding: 1.25rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="{% url 'nova_denuncia' %}" class="brand">DenúnciaSafe</a>
+            <nav>
+                <a href="{% url 'nova_denuncia' %}">Fazer Denúncia</a>
+                <a href="{% url 'consultar_status' %}">Consultar Protocolo</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'lista_denuncias' %}">Painel do Apurador</a>
+                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-link">Sair ({{ user.username }})</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Área do Apurador</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'success' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        DenúnciaSafe &mdash; Canal seguro e em conformidade com a LGPD (Lei nº 13.709/2018)
+    </footer>
+</body>
+</html>

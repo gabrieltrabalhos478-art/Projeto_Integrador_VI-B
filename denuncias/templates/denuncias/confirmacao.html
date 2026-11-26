@@ -1,0 +1,23 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Denúncia Registrada - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Denúncia Registrada com Sucesso</h1>
+    <p>
+        Sua denúncia foi recebida e armazenada com segurança. Guarde o código de protocolo abaixo
+        para acompanhar o andamento da apuração:
+    </p>
+
+    <div class="protocolo-box">{{ protocolo }}</div>
+
+    <p class="muted">
+        Por segurança e privacidade, o conteúdo da denúncia não pode ser exibido na consulta pública,
+        apenas o status atual do atendimento.
+    </p>
+
+    <a href="{% url 'consultar_status' %}" class="btn">Consultar Status</a>
+    <a href="{% url 'nova_denuncia' %}" class="btn btn-secondary">Registrar Outra Denúncia</a>
+</div>
+{% endblock %}

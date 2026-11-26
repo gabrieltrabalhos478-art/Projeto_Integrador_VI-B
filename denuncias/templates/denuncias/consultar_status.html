@@ -1,0 +1,39 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Consultar Status - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Consultar Status da Denúncia</h1>
+    <p class="muted">
+        Informe o protocolo recebido no momento do envio. Apenas a situação atual será exibida,
+        preservando o sigilo das informações relatadas.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.protocolo.id_for_label }}">{{ form.protocolo.label }}</label>
+            {{ form.protocolo }}
+            {{ form.protocolo.errors }}
+        </div>
+        <button type="submit" class="btn">Consultar</button>
+    </form>
+
+    {% if resultado %}
+        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border);">
+        <h2>Resultado da Consulta</h2>
+        <p><strong>Protocolo:</strong> {{ resultado.protocolo }}</p>
+        <p>
+            <strong>Status atual:</strong>
+            <span class="badge badge-{{ resultado.status_code }}">{{ resultado.status_display }}</span>
+        </p>
+        <p><strong>Registrada em:</strong> {{ resultado.criado_em|date:"d/m/Y H:i" }}</p>
+        <p><strong>Última atualização:</strong> {{ resultado.atualizado_em|date:"d/m/Y H:i" }}</p>
+    {% elif nao_encontrado %}
+        <div class="alert alert-warning" style="margin-top: 1.25rem;">
+            Nenhuma denúncia encontrada com o protocolo informado. Verifique o código e tente novamente.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Painel de Denúncias - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Denúncias Registradas</h1>
+
+    <form method="get" style="display: flex; gap: 0.75rem; align-items: end; flex-wrap: wrap; margin-bottom: 1rem;">
+        <div style="min-width: 200px;">
+            <label for="status">Filtrar por status</label>
+            <select name="status" id="status">
+                <option value="">Todos</option>
+                {% for valor, rotulo in status_choices %}
+                    <option value="{{ valor }}" {% if status_filtro == valor %}selected{% endif %}>{{ rotulo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn">Filtrar</button>
+    </form>
+
+    {% if denuncias %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Protocolo</th>
+                    <th>Categoria</th>
+                    <th>Empresa</th>
+                    <th>Status</th>
+                    <th>Registrada em</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in denuncias %}
+                    <tr>
+                        <td><strong>{{ d.protocolo }}</strong></td>
+                        <td>{{ d.get_categoria_display }}</td>
+                        <td>{{ d.empresa_envolvida }}</td>
+                        <td><span class="badge badge-{{ d.status }}">{{ d.get_status_display }}</span></td>
+                        <td>{{ d.criado_em|date:"d/m/Y H:i" }}</td>
+                        <td><a href="{% url 'detalhe_denuncia' d.pk %}" class="btn" style="padding: 0.35rem 0.75rem; font-size: 0.875rem;">Abrir</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">Nenhuma denúncia encontrada.</p>
+    {% endif %}
+</div>
+{% endblock %}

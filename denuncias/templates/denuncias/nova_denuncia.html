@@ -1,0 +1,66 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Nova Denúncia - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Registrar Denúncia</h1>
+    <p class="muted">
+        Relate vazamentos de dados, práticas inadequadas de segurança ou atividades suspeitas.
+        Você pode enviar sua denúncia de forma <strong>totalmente anônima</strong>.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-error">
+                Por favor, corrija os campos destacados abaixo antes de enviar.
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}</label>
+            {{ form.categoria }}
+            {{ form.categoria.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.empresa_envolvida.id_for_label }}">{{ form.empresa_envolvida.label }}</label>
+            {{ form.empresa_envolvida }}
+            {{ form.empresa_envolvida.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.data_aproximada.id_for_label }}">{{ form.data_aproximada.label }}</label>
+            {{ form.data_aproximada }}
+            {{ form.data_aproximada.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
+            {{ form.descricao }}
+            {{ form.descricao.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.contato_denunciante.id_for_label }}">{{ form.contato_denunciante.label }}</label>
+            {{ form.contato_denunciante }}
+            <small class="muted">Este campo é opcional. Deixe em branco para manter o anonimato.</small>
+            {{ form.contato_denunciante.errors }}
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                {{ form.consentimento }}
+                <label for="{{ form.consentimento.id_for_label }}">
+                    {{ form.consentimento.label }}
+                </label>
+            </div>
+            {{ form.consentimento.errors }}
+        </div>
+
+        <button type="submit" class="btn">Enviar Denúncia</button>
+    </form>
+</div>
+{% endblock %}
