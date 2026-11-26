@@ -5,6 +5,8 @@ from .models import Denuncia
 class DenunciaForm(forms.ModelForm):
     """Formulário público para envio de denúncias com consentimento explícito."""
 
+    # LGPD - Consentimento (Art. 7º, I e Art. 8º) e Finalidade (Art. 6º, I):
+    # exige ciência explícita do titular sobre o uso exclusivo para apuração.
     consentimento = forms.BooleanField(
         required=True,
         label='Li e concordo com o tratamento dos dados informados exclusivamente para apuração desta denúncia.',

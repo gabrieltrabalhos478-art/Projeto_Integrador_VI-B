@@ -189,6 +189,7 @@
             <nav>
                 <a href="{% url 'nova_denuncia' %}">Fazer Denúncia</a>
                 <a href="{% url 'consultar_status' %}">Consultar Protocolo</a>
+                <a href="{% url 'politica_privacidade' %}">Privacidade (LGPD)</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'lista_denuncias' %}">Painel do Apurador</a>
                     {% if user.is_superuser %}
@@ -218,7 +219,8 @@
     </main>
 
     <footer>
-        DenúnciaSafe &mdash; Canal seguro e em conformidade com a LGPD (Lei nº 13.709/2018)
+        DenúnciaSafe &mdash; Canal seguro e em conformidade com a LGPD (Lei nº 13.709/2018) |
+        <a href="{% url 'politica_privacidade' %}" style="color: inherit;">Política de Privacidade</a>
     </footer>
 </body>
 </html>

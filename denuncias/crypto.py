@@ -3,7 +3,10 @@ from django.conf import settings
 
 
 def _obter_fernet():
-    """Instancia o objeto Fernet a partir da chave configurada no ambiente."""
+    """
+    LGPD - Princípio da Segurança e Prevenção (Art. 6º, VII e VIII; Art. 46):
+    lê a chave de criptografia de variável de ambiente, evitando segredos no código-fonte.
+    """
     chave = settings.FERNET_KEY
     if not chave:
         raise ValueError(

@@ -15,7 +15,8 @@ def nova_denuncia(request):
         form = DenunciaForm(request.POST)
         if form.is_valid():
             denuncia = form.save(commit=False)
-            # Criptografa campos sensíveis em repouso antes de persistir no banco
+            # LGPD - Princípio da Segurança e Prevenção (Art. 6º, VII e VIII; Art. 46):
+            # criptografa descrição e contato antes de persistir no banco de dados.
             denuncia.descricao = criptografar_texto(denuncia.descricao)
             denuncia.contato_denunciante = criptografar_texto(denuncia.contato_denunciante)
             denuncia.save()
@@ -24,6 +25,11 @@ def nova_denuncia(request):
         form = DenunciaForm()
 
     return render(request, 'denuncias/nova_denuncia.html', {'form': form})
+
+
+def politica_privacidade(request):
+    """LGPD - Princípio da Transparência (Art. 6º, VI): exibe a política em linguagem clara."""
+    return render(request, 'denuncias/politica_privacidade.html')
 
 
 def confirmacao_denuncia(request, protocolo):
@@ -43,7 +49,8 @@ def consultar_status(request):
             codigo = form.cleaned_data['protocolo'].strip().upper()
             denuncia = Denuncia.objects.filter(protocolo=codigo).first()
             if denuncia:
-                # Retorna apenas metadados de andamento, sem descrição, empresa ou contato
+                # LGPD - Princípio da Necessidade / Minimização (Art. 6º, III) e Segurança (Art. 46):
+                # retorna apenas metadados de andamento, nunca descrição, empresa ou contato.
                 resultado = {
                     'protocolo': denuncia.protocolo,
                     'status_display': denuncia.get_status_display(),
@@ -95,6 +102,8 @@ def detalhe_denuncia(request, pk):
         form = AlterarStatusForm(request.POST, instance=denuncia)
         if form.is_valid():
             form.save()
+            # LGPD - Princípio da Responsabilização e Prestação de Contas (Art. 6º, X):
+            # registra em trilha de auditoria quem alterou o status e quando.
             LogAcesso.objects.create(
                 usuario=request.user,
                 denuncia=denuncia,
@@ -105,13 +114,16 @@ def detalhe_denuncia(request, pk):
             return redirect('detalhe_denuncia', pk=denuncia.pk)
     else:
         form = AlterarStatusForm(instance=denuncia)
+        # LGPD - Princípio da Responsabilização e Prestação de Contas (Art. 6º, X):
+        # registra cada visualização de denúncia por um apurador.
         LogAcesso.objects.create(
             usuario=request.user,
             denuncia=denuncia,
             acao='visualizacao',
         )
 
-    # Descriptografa descrição e contato apenas na exibição para o apurador autorizado
+    # LGPD - Princípio da Segurança (Art. 6º, VII) e Necessidade (Art. 6º, III):
+    # descriptografa descrição e contato apenas na exibição para o apurador autorizado.
     descricao_clara = descriptografar_texto(denuncia.descricao)
     contato_claro = descriptografar_texto(denuncia.contato_denunciante)
 

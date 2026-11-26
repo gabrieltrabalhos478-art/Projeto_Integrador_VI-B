@@ -47,7 +47,8 @@ class Denuncia(models.Model):
     descricao = models.TextField(
         'Descrição do ocorrido',
     )
-    # Campo opcional para permitir denúncias 100% anônimas
+    # LGPD - Princípio da Necessidade / Minimização (Art. 6º, III):
+    # campo opcional para permitir denúncias 100% anônimas sem coleta de dados pessoais.
     contato_denunciante = models.CharField(
         'Contato do denunciante (opcional)',
         max_length=255,

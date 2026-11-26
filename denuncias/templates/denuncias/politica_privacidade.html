@@ -1,0 +1,66 @@
+{% extends 'denuncias/base.html' %}
+
+{% block title %}Política de Privacidade - DenúnciaSafe{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Política de Privacidade e Conformidade com a LGPD</h1>
+    <p class="muted">
+        Esta página explica, em linguagem simples e direta, como o <strong>DenúnciaSafe</strong> trata
+        as informações enviadas neste canal, em conformidade com a Lei Geral de Proteção de Dados
+        (Lei nº 13.709/2018).
+    </p>
+
+    <h2>1. Finalidade (Art. 6º, I)</h2>
+    <p>
+        As informações registradas neste sistema são utilizadas <strong>exclusivamente</strong> para
+        receber, apurar e acompanhar denúncias de vazamento de dados, práticas inadequadas de segurança
+        ou atividades suspeitas envolvendo empresas. Nenhum dado é utilizado para fins comerciais,
+        publicitários ou compartilhado com terceiros fora do processo de apuração.
+    </p>
+
+    <h2>2. Minimização e Anonimato (Art. 6º, III)</h2>
+    <p>
+        Coletamos apenas os dados estritamente necessários para entender e investigar o incidente.
+        O campo de contato do denunciante é <strong>totalmente opcional</strong>: você pode enviar
+        sua denúncia de forma 100% anônima, sem informar nome, e-mail ou telefone.
+    </p>
+
+    <h2>3. Segurança e Sigilo (Art. 6º, VII e Art. 46)</h2>
+    <ul>
+        <li>
+            <strong>Criptografia em repouso:</strong> a descrição da denúncia e o eventual contato do
+            denunciante são criptografados com algoritmo Fernet antes de serem gravados no banco de dados.
+        </li>
+        <li>
+            <strong>Controle de acesso:</strong> apenas usuários autenticados pertencentes ao grupo
+            <em>Apurador</em> podem visualizar o conteúdo das denúncias.
+        </li>
+        <li>
+            <strong>Consulta pública segura:</strong> ao consultar um protocolo, apenas a situação atual
+            (ex.: Recebida, Em análise, Concluída) e as datas são exibidas, sem expor o relato.
+        </li>
+        <li>
+            <strong>Trilha de auditoria:</strong> toda visualização ou alteração de status por um
+            apurador é registrada em log para garantir responsabilização e rastreabilidade.
+        </li>
+    </ul>
+
+    <h2>4. Retenção e Eliminação (Art. 15 e Art. 16)</h2>
+    <p>
+        Os registros de denúncias são mantidos apenas pelo tempo necessário para a conclusão da
+        apuração e eventual cumprimento de obrigação legal ou regulatória. Após esse prazo, os dados
+        pessoais eventualmente fornecidos são eliminados ou anonimizados de forma segura.
+    </p>
+
+    <h2>5. Transparência e Consentimento (Art. 6º, VI e Art. 7º, I)</h2>
+    <p>
+        Antes de enviar uma denúncia, o usuário confirma estar ciente desta política por meio da caixa
+        de consentimento no formulário.
+    </p>
+
+    <div style="margin-top: 1.5rem;">
+        <a href="{% url 'nova_denuncia' %}" class="btn">Voltar para Nova Denúncia</a>
+    </div>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.nova_denuncia, name='nova_denuncia'),
+    path('privacidade/', views.politica_privacidade, name='politica_privacidade'),
     path('confirmacao/<str:protocolo>/', views.confirmacao_denuncia, name='confirmacao_denuncia'),
     path('consultar/', views.consultar_status, name='consultar_status'),
     path('login/', auth_views.LoginView.as_view(template_name='denuncias/login.html'), name='login'),

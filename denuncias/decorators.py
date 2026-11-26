@@ -4,7 +4,11 @@ from django.core.exceptions import PermissionDenied
 
 
 def apurador_required(view_func):
-    """Restringe o acesso apenas a usuários autenticados do grupo 'Apurador'."""
+    """
+    LGPD - Princípio da Segurança (Art. 6º, VII e Art. 46):
+    restringe o acesso aos dados das denúncias apenas a usuários autenticados
+    e autorizados no grupo 'Apurador' (controle de acesso baseado em papel).
+    """
 
     @login_required
     @wraps(view_func)

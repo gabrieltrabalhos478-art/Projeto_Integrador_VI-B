@@ -55,6 +55,7 @@
                 {{ form.consentimento }}
                 <label for="{{ form.consentimento.id_for_label }}">
                     {{ form.consentimento.label }}
+                    (<a href="{% url 'politica_privacidade' %}" target="_blank">Ler Política de Privacidade</a>)
                 </label>
             </div>
             {{ form.consentimento.errors }}
